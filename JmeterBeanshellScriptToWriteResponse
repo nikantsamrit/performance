@@ -1,0 +1,40 @@
+#---------------------------------------------------------------------------
+
+# Write data to a file upon Assertion failure using JSR223 Listner
+
+#---------------------------------------------------------------------------
+
+ 
+
+if (!prev.isSuccessful()) {
+
+ 
+
+log.info("Response Assertion failure for: "+ vars.get("Error_Code") );
+
+ 
+
+resultCount = vars.get("Error_Code"); //Error_Code is a Regular Expression Extractor variable
+
+ 
+
+FileWriter fstream = new FileWriter("/Output.csv", true);
+
+
+BufferedWriter out = new BufferedWriter(fstream);
+
+
+out.write(resultCount);
+
+
+out.write(System.getProperty("line.separator"));
+
+
+out.close();
+
+
+fstream.close();
+
+ 
+
+}
