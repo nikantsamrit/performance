@@ -1,0 +1,13 @@
+stage('Map Network Drive') {
+            // Map network drive using net use command
+            bat """
+                net use ${networkDriveLetter} ${networkDrive} /user:${username} ${password}
+            """
+        }
+ 
+        stage('Push Files to Network Drive') {
+            // Use copy command to push files to network drive
+            bat """
+                xcopy /E /I /Y ${sourceDirectory}\\* ${networkDriveLetter}\\
+            """
+        }
