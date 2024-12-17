@@ -10,4 +10,6 @@ stage('Map Network Drive') {
             bat """
                 xcopy /E /I /Y ${sourceDirectory}\\* ${networkDriveLetter}\\
             """
+
+bat " xcopy /E /I /Y" + "${sourceDirectory}\\*" +  "${networkDriveLetter}\\"
         }
