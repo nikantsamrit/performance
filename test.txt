@@ -13,3 +13,4 @@ stage('Map Network Drive') {
 
 bat " xcopy /E /I /Y" + "${sourceDirectory}\\*" +  "${networkDriveLetter}\\"
         }
+    ${__CSVRead(products.csv, 0, ${__Random(1, 10)})}  
