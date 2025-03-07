@@ -29,3 +29,15 @@ if (response != JOptionPane.YES_OPTION) {
     log.info("Test execution cancelled by the user.")
     KeyToolUtils.stopEngineNow() // Stop the test immediately
 }
+
+
+import javax.swing.JOptionPane
+
+// Prompt the user for confirmation
+int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to run the test?", "Confirmation", JOptionPane.YES_NO_OPTION)
+
+if (response != JOptionPane.YES_OPTION) {
+    // Stop the test if the user selects "No"
+    log.info("Test execution cancelled by the user.")
+    props.put("stopTest", "true") // Set a JMeter property
+}
