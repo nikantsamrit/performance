@@ -31,15 +31,20 @@ if (response != JOptionPane.YES_OPTION) {
 }
 
 
+******
 import javax.swing.JOptionPane
 
-// Prompt the user for confirmation
+// Display a confirmation dialog
 int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to run the test?", "Confirmation", JOptionPane.YES_NO_OPTION)
 
-if (response != JOptionPane.YES_OPTION) {
-    // Stop the test if the user selects "No"
-    log.info("Test execution cancelled by the user.")
-    props.put("stopTest", "true") // Set a JMeter property
+// Check the user's response
+if (response == JOptionPane.YES_OPTION) {
+    // User clicked "Yes" - continue with the test
+    log.info("User confirmed - proceeding with the test.")
+} else {
+    // User clicked "No" - stop the test
+    log.info("User canceled - stopping the test.")
+    SampleResult.setStopTest(true) // Stop the test
 }
 
 
