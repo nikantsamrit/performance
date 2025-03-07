@@ -125,3 +125,25 @@ if (now.isBefore(targetTime)) {
 } else {
     log.info("Current time is 7 PM CST or later. Proceeding with the test.")
 }
+*******
+
+import java.time.*
+import java.time.format.DateTimeFormatter
+
+// Define the CST timezone
+def cstZone = ZoneId.of("America/Chicago")
+
+// Get the current time in CST
+def now = ZonedDateTime.now(cstZone)
+
+// Define the start and end times (7 PM CST and 11 PM CST)
+def startTime = now.withHour(19).withMinute(0).withSecond(0).withNano(0) // 7 PM CST
+def endTime = now.withHour(23).withMinute(0).withSecond(0).withNano(0)   // 11 PM CST
+
+// Check if the current time is outside the range (7 PM CST - 11 PM CST)
+if (now.isBefore(startTime) || now.isAfter(endTime)) {
+    log.info("Current time is outside the range 7 PM CST - 11 PM CST. Stopping the test.")
+    ctx.getEngine().stopTest(true) // Stop the test gracefully
+} else {
+    log.info("Current time is within the range 7 PM CST - 11 PM CST. Proceeding with the test.")
+}
