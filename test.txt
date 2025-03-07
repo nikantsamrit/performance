@@ -86,3 +86,21 @@ SwingUtilities.invokeAndWait(new Runnable() {
         }
     }
 })
+
+
+
+import java.util.Date
+
+// Get the current time
+def now = new Date()
+
+// Define the target time (7 PM)
+def targetTime = new Date(now.year, now.month, now.date, 19, 0, 0) // 19:00 = 7 PM
+
+// Check if the current time is before 7 PM
+if (now.before(targetTime)) {
+    log.info("Current time is before 7 PM. Stopping the test.")
+    ctx.getEngine().stopTest(true) // Stop the test gracefully
+} else {
+    log.info("Current time is 7 PM or later. Proceeding with the test.")
+}
