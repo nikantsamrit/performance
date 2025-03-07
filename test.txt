@@ -19,6 +19,7 @@ ${__groovy(vars.get('myVar'))}
 
 
 import javax.swing.JOptionPane
+import org.apache.jorphan.exec.KeyToolUtils
 
 // Prompt the user for confirmation
 int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to run the test?", "Confirmation", JOptionPane.YES_NO_OPTION)
@@ -26,6 +27,5 @@ int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to run
 if (response != JOptionPane.YES_OPTION) {
     // Stop the test if the user selects "No"
     log.info("Test execution cancelled by the user.")
-    SampleResult.setStopTest(true) // Stop the entire test
-    SampleResult.setStopTestNow(true) // Stop the test immediately
+    KeyToolUtils.stopEngineNow() // Stop the test immediately
 }
