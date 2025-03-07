@@ -47,7 +47,21 @@ if (response == JOptionPane.YES_OPTION) {
     SampleResult.setStopTest(true) // Stop the test
 }
 
+****
+import javax.swing.JOptionPane
 
+// Display a confirmation dialog
+int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to run the test?", "Confirmation", JOptionPane.YES_NO_OPTION)
+
+// Check the user's response
+if (response == JOptionPane.YES_OPTION) {
+    // User clicked "Yes" - continue with the test
+    log.info("User confirmed - proceeding with the test.")
+} else {
+    // User clicked "No" - stop the test
+    log.info("User canceled - stopping the test.")
+    prev.setStopTest(true) // Stop the test
+}
 
 *****
 import javax.swing.JOptionPane
