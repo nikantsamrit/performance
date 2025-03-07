@@ -41,3 +41,29 @@ if (response != JOptionPane.YES_OPTION) {
     log.info("Test execution cancelled by the user.")
     props.put("stopTest", "true") // Set a JMeter property
 }
+
+
+
+*****
+import javax.swing.JOptionPane
+import javax.swing.SwingUtilities
+import org.apache.jmeter.threads.JMeterContextService
+
+log.info("JSR223 PreProcessor is running...") // Debugging line
+
+// Use SwingUtilities to ensure the dialog runs on the EDT
+SwingUtilities.invokeAndWait(new Runnable() {
+    void run() {
+        // Show confirmation dialog
+        int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to run the test?", "Confirm", JOptionPane.YES_NO_OPTION)
+
+        log.info("User response: " + response) // Debugging line
+
+        // Cancel test execution if the user clicks "No"
+        if (response != JOptionPane.YES_OPTION) {
+            log.error("Test execution cancelled by user.") // Debugging line
+            JMeterContextService.getContext().getEngine().stopTest(true) // Stop all threads
+            throw new Exception("Test execution cancelled by user.")
+        }
+    }
+})
