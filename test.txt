@@ -18,7 +18,6 @@ ${__groovy(vars.get('myVar'))}
 
 
 
-
 import javax.swing.JOptionPane
 
 // Prompt the user for confirmation
@@ -26,5 +25,7 @@ int response = JOptionPane.showConfirmDialog(null, "Are you sure you want to run
 
 if (response != JOptionPane.YES_OPTION) {
     // Stop the test if the user selects "No"
-    throw new Exception("Test execution cancelled by the user.")
+    log.info("Test execution cancelled by the user.")
+    SampleResult.setStopTest(true) // Stop the entire test
+    SampleResult.setStopTestNow(true) // Stop the test immediately
 }
