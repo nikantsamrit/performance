@@ -104,3 +104,24 @@ if (now.before(targetTime)) {
 } else {
     log.info("Current time is 7 PM or later. Proceeding with the test.")
 }
+
+
+import java.time.*
+import java.time.format.DateTimeFormatter
+
+// Define the CST timezone
+def cstZone = ZoneId.of("America/Chicago")
+
+// Get the current time in CST
+def now = ZonedDateTime.now(cstZone)
+
+// Define the target time (7 PM CST)
+def targetTime = now.withHour(19).withMinute(0).withSecond(0).withNano(0) // 19:00 = 7 PM
+
+// Check if the current time is before 7 PM CST
+if (now.isBefore(targetTime)) {
+    log.info("Current time is before 7 PM CST. Stopping the test.")
+    ctx.getEngine().stopTest(true) // Stop the test gracefully
+} else {
+    log.info("Current time is 7 PM CST or later. Proceeding with the test.")
+}
