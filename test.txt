@@ -158,3 +158,21 @@ if (env == "dev") {
 } else if (env == "production") {
     vars.put("base_url", "https://example.com")
 }
+
+*********
+// Define the allowed environments
+def allowedEnvironments = ["dev", "UAT", "PPD", "Prod"]
+
+// Get the value of the 'env' variable
+def env = vars.get("env")
+
+// Check if 'env' is null or not in the allowed list
+if (env == null || !allowedEnvironments.contains(env)) {
+    // Fail the test
+    SampleResult.setSuccessful(false)
+    SampleResult.setResponseMessage("Test failed: 'env' is null or not one of the allowed values (dev, UAT, PPD, Prod). Value provided: " + env)
+} else {
+    // Continue the test
+    SampleResult.setSuccessful(true)
+    SampleResult.setResponseMessage("Test passed: 'env' is valid. Value provided: " + env)
+}
