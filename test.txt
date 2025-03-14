@@ -147,3 +147,14 @@ if (now.isBefore(startTime) || now.isAfter(endTime)) {
 } else {
     log.info("Current time is within the range 7 PM CST - 11 PM CST. Proceeding with the test.")
 }
+
+
+********
+def env = vars.get("env")
+if (env == "dev") {
+    vars.put("base_url", "https://dev.example.com")
+} else if (env == "staging") {
+    vars.put("base_url", "https://staging.example.com")
+} else if (env == "production") {
+    vars.put("base_url", "https://example.com")
+}
