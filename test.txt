@@ -176,3 +176,28 @@ if (env == null || !allowedEnvironments.contains(env)) {
     SampleResult.setSuccessful(true)
     SampleResult.setResponseMessage("Test passed: 'env' is valid. Value provided: " + env)
 }
+
+
+
+
+// Get the directory of the JMX file
+String jmxFilePath = ctx.getProperty("jmeter.save.saveservice.base_directory");
+if (jmxFilePath == null || jmxFilePath.isEmpty()) {
+    jmxFilePath = System.getProperty("user.dir"); // Fallback to current working directory
+}
+
+// Define the file name and path
+String fileName = "output.txt";
+String filePath = jmxFilePath + File.separator + fileName;
+
+// Create the file and write some content
+try {
+    File file = new File(filePath);
+    FileWriter writer = new FileWriter(file);
+    writer.write("This is a sample file created by BeanShell Listener.\n");
+    writer.write("JMX file location: " + jmxFilePath + "\n");
+    writer.close();
+    log.info("File created successfully at: " + filePath);
+} catch (IOException e) {
+    log.error("Failed to create file: " + e.getMessage());
+}
