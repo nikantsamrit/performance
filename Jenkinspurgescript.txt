@@ -1,0 +1,102 @@
+pipeline {
+    agent any
+    
+    options {
+        timeout(time: 30, unit: 'MINUTES')
+    }
+    
+    stages {
+        stage('Initialize') {
+            steps {
+                script {
+                    // Define the locations to clean
+                    LOCATION1 = "C:\\path\\to\\first\\location"
+                    LOCATION2 = "D:\\path\\to\\second\\location"
+                    
+                    // Log the start time and locations
+                    currentBuild.displayName = "#${BUILD_NUMBER} - Purging old files"
+                    echo "Starting purge of files older than 30 days"
+                    echo "Location 1: ${LOCATION1}"
+                    echo "Location 2: ${LOCATION2}"
+                }
+            }
+        }
+        
+        stage('Dry Run - Show Files to Delete') {
+            steps {
+                script {
+                    echo "DRY RUN - Showing files that would be deleted (not actually deleting)"
+                    
+                    // First location dry run
+                    bat """
+                        echo Checking Location 1: ${LOCATION1}
+                        powershell -command "Get-ChildItem -Path \"${LOCATION1}\" -File -Recurse | Where-Object { \$_.LastWriteTime -lt (Get-Date).AddDays(-30) } | Select-Object FullName, LastWriteTime | Format-Table -AutoSize"
+                    """
+                    
+                    // Second location dry run
+                    bat """
+                        echo Checking Location 2: ${LOCATION2}
+                        powershell -command "Get-ChildItem -Path \"${LOCATION2}\" -File -Recurse | Where-Object { \$_.LastWriteTime -lt (Get-Date).AddDays(-30) } | Select-Object FullName, LastWriteTime | Format-Table -AutoSize"
+                    """
+                }
+            }
+        }
+        
+        stage('Actual Deletion') {
+            steps {
+                script {
+                    echo "ACTUAL DELETION - Removing files older than 30 days"
+                    
+                    // First location actual deletion
+                    bat """
+                        echo Purging Location 1: ${LOCATION1}
+                        powershell -command "\$count = (Get-ChildItem -Path \"${LOCATION1}\" -File -Recurse | Where-Object { \$_.LastWriteTime -lt (Get-Date).AddDays(-30) } | Measure-Object).Count; Write-Host \"Deleting \$count files from ${LOCATION1}\"; Get-ChildItem -Path \"${LOCATION1}\" -File -Recurse | Where-Object { \$_.LastWriteTime -lt (Get-Date).AddDays(-30) } | Remove-Item -Force -ErrorAction Stop"
+                    """
+                    
+                    // Second location actual deletion
+                    bat """
+                        echo Purging Location 2: ${LOCATION2}
+                        powershell -command "\$count = (Get-ChildItem -Path \"${LOCATION2}\" -File -Recurse | Where-Object { \$_.LastWriteTime -lt (Get-Date).AddDays(-30) } | Measure-Object).Count; Write-Host \"Deleting \$count files from ${LOCATION2}\"; Get-ChildItem -Path \"${LOCATION2}\" -File -Recurse | Where-Object { \$_.LastWriteTime -lt (Get-Date).AddDays(-30) } | Remove-Item -Force -ErrorAction Stop"
+                    """
+                }
+            }
+        }
+        
+        stage('Clean Empty Directories') {
+            steps {
+                script {
+                    echo "Cleaning up empty directories"
+                    
+                    // Clean empty directories in both locations
+                    bat """
+                        powershell -command "Get-ChildItem -Path \"${LOCATION1}\" -Directory -Recurse | Where-Object { @(Get-ChildItem -Path \$_.FullName -Force -Recurse).Count -eq 0 } | Remove-Item -Force -Recurse -ErrorAction SilentlyContinue"
+                        powershell -command "Get-ChildItem -Path \"${LOCATION2}\" -Directory -Recurse | Where-Object { @(Get-ChildItem -Path \$_.FullName -Force -Recurse).Count -eq 0 } | Remove-Item -Force -Recurse -ErrorAction SilentlyContinue"
+                    """
+                }
+            }
+        }
+    }
+    
+    post {
+        always {
+            script {
+                echo "File purge operation completed"
+            }
+        }
+        success {
+            script {
+                currentBuild.description = "Successfully purged old files from both locations"
+            }
+        }
+        failure {
+            script {
+                currentBuild.description = "File purge failed - check logs"
+                emailext (
+                    subject: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
+                    body: "Check console output at ${env.BUILD_URL}console",
+                    to: "your-email@example.com"
+                )
+            }
+        }
+    }
+}
