@@ -1,0 +1,45 @@
+when i open edge browser through selenium browser i am not seeing the nextthink extention
+Nextthink Extension Not Appearing in Selenium-Controlled Edge Browser
+When you're not seeing the Nextthink extension in your Edge browser when launched through Selenium, there are several potential causes and solutions:
+
+Possible Causes
+Different browser profiles: Selenium typically launches with a clean profile by default
+
+Extension installation scope: The extension might be installed only for your user profile
+
+Enterprise policy restrictions: Nextthink might be managed by your organization's policies
+
+Extension loading timing: The extension might need more time to load
+
+Solutions to Try
+1. Use your existing profile
+python
+Copy
+from selenium.webdriver.edge.options import Options
+
+edge_options = Options()
+edge_options.add_argument("user-data-dir=C:\\Path\\To\\Your\\Edge\\Profile") 
+# Find your profile path in edge://version
+driver = webdriver.Edge(options=edge_options)
+2. Explicitly load the extension
+python
+Copy
+edge_options.add_extension('path_to_nextthink_extension.crx')
+
+3. Check enterprise policies
+Verify if Nextthink is deployed via Group Policy
+
+Check if your Selenium instance has the necessary permissions
+
+4. Add a delay after launch
+python
+Copy
+import time
+driver.get("edge://extensions/")  # Go to extensions page
+time.sleep(5)  # Wait for extensions to load
+5. Verify extension ID
+Check if the extension is enabled in the profile you're using
+
+The extension ID might be different in automated sessions
+
+If you're in a corporate environment, you may need to contact your IT department as Nextthink is typically deployed and managed as an enterprise monitoring solution.
