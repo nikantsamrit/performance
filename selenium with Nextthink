@@ -43,3 +43,15 @@ Check if the extension is enabled in the profile you're using
 The extension ID might be different in automated sessions
 
 If you're in a corporate environment, you may need to contact your IT department as Nextthink is typically deployed and managed as an enterprise monitoring solution.
+
+
+Alternative: Load Unpacked Extension in Selenium
+If you can't get a .crx, you can load the extension as an unpacked folder:
+
+python
+Copy
+from selenium.webdriver.edge.options import Options
+
+options = Options()
+options.add_argument("--load-extension=C:/Path/To/NexthinkExtensionFolder")
+driver = webdriver.Edge(options=options)
