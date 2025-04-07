@@ -37,3 +37,31 @@ if (!prev.isSuccessful()) {
         log.error("Error writing to file: " + e.getMessage());
     }
 }
+
+
+******
+import java.io.FileWriter;
+import java.io.BufferedWriter;
+
+// Get the current value from CSV (assuming it's stored in a JMeter variable)
+String csvValue = vars.get("YOUR_CSV_VARIABLE"); // Replace with your actual variable name
+
+if (!prev.isSuccessful()) { // If the request/sample failed
+    log.info("CSV value failed: " + csvValue);
+    
+    try {
+        // Open file in append mode (true)
+        FileWriter fstream = new FileWriter("failed_values.csv", true);
+        BufferedWriter out = new BufferedWriter(fstream);
+        
+        // Write the failed value
+        out.write(csvValue);
+        out.newLine(); // Better than System.getProperty("line.separator")
+        
+        // Close resources
+        out.close();
+        fstream.close();
+    } catch (Exception e) {
+        log.error("Error writing to failed_values.csv: " + e.getMessage());
+    }
+}
