@@ -1,3 +1,6 @@
+# Windows (save as .bat)
+findstr /V /G:"keywords_to_remove.txt" "input.txt" > "output.txt"
+
 stage('Map Network Drive') {
             // Map network drive using net use command
             bat """
