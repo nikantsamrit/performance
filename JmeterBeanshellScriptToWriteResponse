@@ -3,38 +3,37 @@
 # Write data to a file upon Assertion failure using JSR223 Listner
 
 #---------------------------------------------------------------------------
+if (!prev.isSuccessful()) {
+log.info("Response Assertion failure for: "+ vars.get("Error_Code") );
+resultCount = vars.get("Error_Code"); //Error_Code is a Regular Expression Extractor variable
+FileWriter fstream = new FileWriter("/Output.csv", true);
+BufferedWriter out = new BufferedWriter(fstream);
+out.write(resultCount);
+out.write(System.getProperty("line.separator"));
+out.close();
+fstream.close();
+}
 
- 
+
+***************************
+import java.io.FileWriter;
+import java.io.BufferedWriter;
 
 if (!prev.isSuccessful()) {
-
- 
-
-log.info("Response Assertion failure for: "+ vars.get("Error_Code") );
-
- 
-
-resultCount = vars.get("Error_Code"); //Error_Code is a Regular Expression Extractor variable
-
- 
-
-FileWriter fstream = new FileWriter("/Output.csv", true);
-
-
-BufferedWriter out = new BufferedWriter(fstream);
-
-
-out.write(resultCount);
-
-
-out.write(System.getProperty("line.separator"));
-
-
-out.close();
-
-
-fstream.close();
-
- 
-
+    log.info("Response Assertion failure for: " + vars.get("Error_Code"));
+    
+    // Declare resultCount with type
+    String resultCount = vars.get("Error_Code");
+    
+    try {
+        // Use a relative path or proper absolute path
+        FileWriter fstream = new FileWriter("Output.csv", true);
+        BufferedWriter out = new BufferedWriter(fstream);
+        out.write(resultCount);
+        out.write(System.getProperty("line.separator"));
+        out.close();
+        fstream.close();
+    } catch (Exception e) {
+        log.error("Error writing to file: " + e.getMessage());
+    }
 }
