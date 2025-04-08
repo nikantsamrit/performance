@@ -1,6 +1,9 @@
 # Windows (save as .bat)
 findstr /V /G:"keywords_to_remove.txt" "input.txt" > "output.txt"
 
+Capture any value after comma
+,\s*\K[^,]+
+
 stage('Map Network Drive') {
             // Map network drive using net use command
             bat """
