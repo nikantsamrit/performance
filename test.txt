@@ -3,6 +3,7 @@ findstr /V /G:"keywords_to_remove.txt" "input.txt" > "output.txt"
 
 Capture any value after comma
 ,\s*\K[^,]+
+(?:^|,)\s*\K[^,\r\n]+
 
 stage('Map Network Drive') {
             // Map network drive using net use command
