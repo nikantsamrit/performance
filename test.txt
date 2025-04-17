@@ -1,3 +1,6 @@
+cat /proc/meminfo | awk 'NR==1,NR==3 {print $1,$2/1024/1024 " GB"}'
+
+
 # Windows (save as .bat)
 findstr /V /G:"keywords_to_remove.txt" "input.txt" > "output.txt"
 
