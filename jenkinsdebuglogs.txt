@@ -1,3 +1,65 @@
+**********
+Method 1: Using smbclient (Direct Transfer)
+This method does not require mounting the share and works well for one-time transfers.
+
+Install smbclient (if not already installed):
+
+bash
+sudo apt-get install smbclient  # Debian/Ubuntu
+sudo yum install samba-client   # RHEL/CentOS
+Transfer the file using smbclient:
+
+bash
+smbclient //ngpgshare-2/perf -U your_username -c "put /opt/home/file_to_transfer destination_filename"
+Replace your_username with your Windows username.
+
+You will be prompted for the password.
+
+file_to_transfer is the source file in /opt/home.
+
+destination_filename is the name of the file on the share (can be the same or different).
+
+Method 2: Mounting the Share with mount.cifs (Permanent Access)
+This method allows you to mount the Windows share like a local directory.
+
+Install cifs-utils (if not installed):
+
+bash
+sudo apt-get install cifs-utils  # Debian/Ubuntu
+sudo yum install cifs-utils      # RHEL/CentOS
+Create a mount point:
+
+bash
+sudo mkdir /mnt/ngpgshare
+Mount the Windows share:
+
+bash
+sudo mount.cifs //ngpgshare-2/perf /mnt/ngpgshare -o user=your_username,vers=3.0
+Replace your_username with your Windows username.
+
+You will be prompted for the password.
+
+Adjust vers=3.0 to match your SMB version (e.g., 2.1 or 1.0 if needed).
+
+Copy the file:
+
+bash
+cp /opt/home/file_to_transfer /mnt/ngpgshare/
+Unmount when done:
+
+bash
+sudo umount /mnt/ngpgshare
+Note:
+If you need persistent mounting, add an entry to /etc/fstab:
+
+//ngpgshare-2/perf /mnt/ngpgshare cifs username=your_username,password=your_password,vers=3.0 0 0
+
+
+
+
+
+
+************
 stage('Execute Jmx Test Directly') {
     steps {
         script {
