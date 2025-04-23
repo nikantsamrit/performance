@@ -1,3 +1,22 @@
+stage('Execute Jmx Test Directly') {
+    steps {
+        script {
+            echo "loopCountOverride: ${loopCountOverride}"
+            dir("/opt/apacheJMeter/apache-jmeter-5.5/bin/") {
+                if ("${numOfThreadsOverride}" == 'none' && "${rampUpPeriodOverride}" == 'none' && "${loopCountOverride}" == 'none' && "${holdLoadForSecondsOverride}" == 'none') {
+                    sh """
+                        ./jmeter.sh -n -t "${WORKSPACE}${jMeterJmxDirForBat}${jMeterJmxFileName}" \
+                        -l "${WORKSPACE}${jMeterTestReportDirForBat}${jMeterOutputjtlFilename}" \
+                        -e -o "${WORKSPACE}${jMeterTestReportDirForHtmlReportBat}"
+                    """
+                }
+            }
+        }
+    }
+}
+
+
+
 The issue with your Jenkins sh command is likely due to incorrect quoting, variable expansion, and Linux path handling. Let's fix it step by step.
 
 Problems in Your Command
