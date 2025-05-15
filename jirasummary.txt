@@ -1,0 +1,78 @@
+How to Get a Summary Report from a Kanban Board in Jira
+Getting a summary report from your Kanban board in Jira can be done through several methods. Here are the most common approaches:
+
+Method 1: Using Built-in Reports
+Navigate to your Kanban board
+
+Click on "Reports" in the top menu (or "View all reports" if available)
+
+Select from these useful report types:
+
+Control Chart: Shows cycle time for completed issues
+
+Cumulative Flow Diagram: Visualizes work status distribution over time
+
+Velocity Chart: Tracks completed work across sprints (if using sprints)
+
+Created vs. Resolved Report: Shows issue resolution trends
+
+Method 2: Quick Filters and Export
+On your Kanban board, apply any filters you need
+
+Click the "..." menu (usually top right)
+
+Select "Export" to CSV/Excel
+
+Open in Excel or Google Sheets for further analysis
+
+Method 3: Using Dashboards
+Go to your Jira dashboard
+
+Click "Add Gadget"
+
+Add these useful gadgets:
+
+Filter Results (to show specific issues)
+
+Two Dimensional Filter Statistics
+
+Created vs. Resolved Chart
+
+Pie Chart or Bar Chart gadgets
+
+Method 4: Advanced Reporting with Jira Query Language (JQL)
+Click "Issues" → "Search for issues"
+
+Enter a JQL query to filter your Kanban issues (e.g., status in ("In Progress", "Done"))
+
+Click "Export" to get the data
+
+Or click "Create pie chart" or other chart options
+
+Method 5: Using Jira Software's Kanban Metrics
+For more advanced Kanban metrics:
+
+Go to your Kanban board
+
+Click on "Board" → "Configure"
+
+Select "Reports" or "Analytics"
+
+View metrics like:
+
+Lead time
+
+Cycle time
+
+Throughput
+
+Pro Tip:
+For more comprehensive reporting, consider using Jira add-ons like:
+
+EazyBI
+
+Power BI Connector for Jira
+
+Tableau integration
+
+Jira Misc Workflow Extensions
