@@ -1,6 +1,15 @@
 props.put("JSESSIONID", vars.get("sessionCookie"))
 
-ctx.getThread().getCookieManager().clear()
+import org.apache.jmeter.protocol.http.control.CookieManager
+
+CookieManager cm = sampler.getCookieManager()
+if (cm != null) {
+    cm.clear()
+    log.info("CookieManager cleared via sampler.")
+} else {
+    log.warn("CookieManager not found via sampler.")
+}
+
 
 cat /proc/meminfo | awk 'NR==1,NR==3 {print $1,$2/1024/1024 " GB"}'
 JVM_ARGS="-Xmx16g -XX:+UseG1GC -XX:MaxGCPauseMillis=100 -XX:ParallelGCThreads=4" jmeter -g results.jtl -o report
