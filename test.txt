@@ -1,12 +1,13 @@
 import org.apache.jmeter.protocol.http.control.CookieManager
 
-CookieManager cm = ctx.getCookieManager()
+CookieManager cm = ctx.getVariables().getObject("COOKIE_MANAGER")
 if (cm != null) {
     cm.clear()
-    log.info("CookieManager cleared successfully")
+    log.info("✅ CookieManager cleared successfully.")
 } else {
-    log.warn("No CookieManager found in context.")
+    log.warn("⚠️ COOKIE_MANAGER not found in thread variables.")
 }
+
 
 
 cat /proc/meminfo | awk 'NR==1,NR==3 {print $1,$2/1024/1024 " GB"}'
