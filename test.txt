@@ -1,3 +1,6 @@
+props.put("JSESSIONID", vars.get("sessionCookie"))
+
+
 cat /proc/meminfo | awk 'NR==1,NR==3 {print $1,$2/1024/1024 " GB"}'
 JVM_ARGS="-Xmx16g -XX:+UseG1GC -XX:MaxGCPauseMillis=100 -XX:ParallelGCThreads=4" jmeter -g results.jtl -o report
 
