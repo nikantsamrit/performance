@@ -8,6 +8,9 @@ if (cm != null) {
     log.warn("⚠️ COOKIE_MANAGER not found in thread variables.")
 }
 
+// Assuming you extract from a response (via regex or JSON extractor)
+def cookieVal = vars.get("extracted_EJAUTH")  // from a Regular Expression Extractor or JSON extractor
+vars.put("dyn_EJAUTH", cookieVal)             // Thread-local variable
 
 
 cat /proc/meminfo | awk 'NR==1,NR==3 {print $1,$2/1024/1024 " GB"}'
